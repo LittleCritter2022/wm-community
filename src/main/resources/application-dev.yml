@@ -1,0 +1,38 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /community
+
+spring:
+  application:
+    name: community
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/community?serverTimezone=GMT%2b8&useSSL=false&failOverReadOnly=false&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    initialization-mode: always
+  http:
+    fastjson:
+      enable: true
+
+swagger:
+  enable: true
+  title: community
+  description: community
+  version: 1.0
+  controller-locations: com.wm.community.controller
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    auto-mapping-behavior: full
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  global-config:
+    # ??????????
+    db-config:
+      # ????
+      logic-not-delete-value: 1
+      # ?????
+      logic-delete-value: 0
