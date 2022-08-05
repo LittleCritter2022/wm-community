@@ -2,13 +2,14 @@ package com.wm.wmcommunity.entity.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 import lombok.Data;
 
 /**
  * -------------------------------------------------------------------------------
  * Copyright  2022 BeiJing HongTianXinYe Technologies Co.,Ltd. All rights reserved.
  * -------------------------------------------------------------------------------
- * Module Name: wm-community >>> LoginQuery
+ * Module Name: wm-community >>> RegisterDto
  * Product:
  * Creator: Gerry(0120)
  * Date Created: 2022/7/29
@@ -24,7 +25,10 @@ import lombok.Data;
  */
 @Data
 @ApiModel
-public class LoginQuery {
+public class UpdateDto {
+
+    @ApiModelProperty(value = "id")
+    private Integer id;
 
     @ApiModelProperty(value = "用户名")
     private String username;
@@ -32,9 +36,6 @@ public class LoginQuery {
     @ApiModelProperty(value = "密码")
     private String password;
 
-    @ApiModelProperty(value = "验证码")
-    private String code;
-
-    @ApiModelProperty(value = "是否记住我")
-    private Boolean rememberMe;
+    @ApiModelProperty(value = "邮箱")
+    private String email;
 }

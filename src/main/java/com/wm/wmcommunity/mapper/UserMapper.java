@@ -1,5 +1,7 @@
 package com.wm.wmcommunity.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wm.wmcommunity.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -21,5 +23,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @author Gerry(0120)
  */
 @Mapper
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<UserEntity> {
 }

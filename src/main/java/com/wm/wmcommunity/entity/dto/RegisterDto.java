@@ -32,9 +32,6 @@ public class RegisterDto {
     @ApiModelProperty(value = "密码")
     private String password;
 
-    @ApiModelProperty(value = "")
-    private String salt;
-
     @ApiModelProperty(value = "邮箱")
     private String email;
 }

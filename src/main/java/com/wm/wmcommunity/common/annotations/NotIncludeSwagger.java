@@ -1,40 +1,27 @@
-package com.wm.wmcommunity.entity.dto;
+package com.wm.wmcommunity.common.annotations;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import java.lang.annotation.*;
 
 /**
  * -------------------------------------------------------------------------------
  * Copyright  2022 BeiJing HongTianXinYe Technologies Co.,Ltd. All rights reserved.
  * -------------------------------------------------------------------------------
- * Module Name: wm-community >>> LoginQuery
+ * Module Name: wm-community >>> NotIncludeSwagger
  * Product:
  * Creator: Gerry(0120)
- * Date Created: 2022/7/29
+ * Date Created: 2022/8/2
  * Description:
  * -------------------------------------------------------------------------------
  * Modification History
  * DATE                       Name                  Description
  * -------------------------------------------------------------------------------
- * 2022/7/29                 Gerry(0120)                 Create
+ * 2022/8/2                 Gerry(0120)                 Create
  * -------------------------------------------------------------------------------
  *
  * @author Gerry(0120)
  */
-@Data
-@ApiModel
-public class LoginQuery {
-
-    @ApiModelProperty(value = "用户名")
-    private String username;
-
-    @ApiModelProperty(value = "密码")
-    private String password;
-
-    @ApiModelProperty(value = "验证码")
-    private String code;
-
-    @ApiModelProperty(value = "是否记住我")
-    private Boolean rememberMe;
+@Documented
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface NotIncludeSwagger {
 }

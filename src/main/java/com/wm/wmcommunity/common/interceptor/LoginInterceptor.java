@@ -1,12 +1,17 @@
 package com.wm.wmcommunity.common.interceptor;
 
+import com.wm.wmcommunity.common.annotations.LoginAnnotation;
+import com.wm.wmcommunity.common.util.HostHolder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
 
 /**
  * -------------------------------------------------------------------------------
@@ -29,6 +34,9 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
 
+    @Autowired
+    private HostHolder hostHolder;
+
     /**
      * 在业务处理器处理请求之前被调用（如：检查登录）
      *
@@ -41,6 +49,15 @@ public class LoginInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (handler instanceof HandlerMethod) {
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
+            Method method = handlerMethod.getMethod();
+            LoginAnnotation annotation = method.getAnnotation(LoginAnnotation.class);
+            if (annotation != null && hostHolder.getUser() != null) {
+                response.sendRedirect(request.getContextPath() + "/login");
+                return false;
+            }
+        }
         return true;
     }
 

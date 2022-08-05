@@ -4,15 +4,15 @@ import com.wm.wmcommunity.common.annotations.LoginAnnotation;
 import com.wm.wmcommunity.common.util.Response;
 import com.wm.wmcommunity.entity.dto.LoginQuery;
 import com.wm.wmcommunity.entity.dto.RegisterDto;
+import com.wm.wmcommunity.entity.dto.UpdateDto;
 import com.wm.wmcommunity.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * -------------------------------------------------------------------------------
@@ -43,8 +43,9 @@ public class LoginController {
     @PostMapping("/login")
     @LoginAnnotation
     @ApiOperation(value = "登录")
-    public Response login(@RequestBody LoginQuery loginQuery) {
-        return userServiceImpl.login(loginQuery);
+    public Response login(@RequestBody LoginQuery loginQuery, HttpServletRequest request,
+                          HttpServletResponse response) {
+        return userServiceImpl.login(loginQuery, request, response);
     }
 
     @PostMapping("/register")
@@ -54,4 +55,30 @@ public class LoginController {
         return userServiceImpl.register(registerDto);
     }
 
+    @PostMapping("/update")
+    @LoginAnnotation
+    @ApiOperation(value = "修改用户信息")
+    public Response update(@RequestBody UpdateDto updateDto) {
+        return userServiceImpl.updateUser(updateDto);
+    }
+
+    @GetMapping("/delete")
+    @LoginAnnotation
+    @ApiOperation(value = "注销账号")
+    public Response deleteById(@RequestParam Integer id) {
+        return userServiceImpl.deleteById(id);
+    }
+
+    @GetMapping("/activation")
+    @LoginAnnotation
+    @ApiOperation(value = "激活")
+    public Response activation(@RequestParam("id") String id, @RequestParam("code") String code) {
+        return userServiceImpl.activation(id, code);
+    }
+
+    @GetMapping("/kaptcha")
+    @ApiOperation("验证码")
+    public void kaptcha(HttpServletResponse response) {
+        userServiceImpl.kaptcha(response);
+    }
 }

@@ -15,13 +15,17 @@ spring:
   http:
     fastjson:
       enable: true
+  redis:
+    host: localhost
+    database: 10
+    port: 6379
 
 swagger:
   enable: true
   title: community
   description: community
   version: 1.0
-  controller-locations: com.wm.community.controller
+  controller-locations: com.wm.wmcommunity.controller
 
 mybatis-plus:
   configuration:

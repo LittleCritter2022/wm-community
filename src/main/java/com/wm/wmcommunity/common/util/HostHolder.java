@@ -1,6 +1,7 @@
 package com.wm.wmcommunity.common.util;
 
 import com.wm.wmcommunity.entity.UserEntity;
+import org.springframework.stereotype.Component;
 
 /**
  * -------------------------------------------------------------------------------
@@ -20,22 +21,23 @@ import com.wm.wmcommunity.entity.UserEntity;
  *
  * @author Gerry(0120)
  */
+@Component
 public class HostHolder {
 
     /**
      * 定义一个本地线程池用来存储当前登录人的详细信息
      */
-    public static final ThreadLocal<UserEntity> THREAD_LOCAL = new ThreadLocal<>();
+    public final ThreadLocal<UserEntity> THREAD_LOCAL = new ThreadLocal<>();
 
-    public static void setUser(UserEntity user) {
+    public void setUser(UserEntity user) {
         THREAD_LOCAL.set(user);
     }
 
-    public static UserEntity getUser() {
+    public UserEntity getUser() {
         return THREAD_LOCAL.get();
     }
 
-    public static void clear() {
+    public void clear() {
         THREAD_LOCAL.remove();
     }
 }
