@@ -78,5 +78,5 @@ public interface UserService extends IService<UserEntity> {
      *
      * @param response
      */
-    void kaptcha(HttpServletResponse response);
+    void kaptCha(HttpServletResponse response);
 }

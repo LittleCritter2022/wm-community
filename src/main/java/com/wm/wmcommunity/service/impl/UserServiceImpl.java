@@ -69,7 +69,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     @Autowired
     private DefaultKaptcha defaultKaptcha;
 
-    @Value("${}")
+    @Value("${uim.contextPath}")
     private String contextPath;
 
     @Override
@@ -79,7 +79,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
             return Response.error(CodeEnum.ERROR_PARAM);
         }
-        String kaptchaOwner = CookieUtil.getValue(request, "kaptchaOwner");
+        String kaptchaOwner = CookieUtil.getValue(request, "kaptChaOwner");
         String kaptcha = (String) redisTemplate.opsForValue().get(RedisKeyUtil.getKaptchaKey(kaptchaOwner));
 
         //通过前端传过来的 验证码和redis中存储的验证码对比 验证登录
@@ -87,10 +87,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
                 || !kaptcha.equalsIgnoreCase(loginQuery.getCode())) {
             return Response.error(CodeEnum.ERROR_USER_AUTH_FAILED);
         }
-        String md5Password = CommunityUtil.md5(password);
 
         UserEntity userEntity = userMapper.selectOne(Wrappers.<UserEntity>lambdaQuery()
                 .eq(UserEntity::getUsername, username));
+
+        String md5Password = CommunityUtil.md5(password + userEntity.getSalt());
 
         if (userEntity == null) {
             return Response.error(CodeEnum.ERROR_LOGIN_NOT_EXIT);
@@ -199,17 +200,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public void kaptcha(HttpServletResponse response) {
+    public void kaptCha(HttpServletResponse response) {
         String text = defaultKaptcha.createText();
         BufferedImage image = defaultKaptcha.createImage(text);
         //将验证码存到session中 效率太慢  所以存入redis中 有效时间60S
-        String kaptchaOwner = CommunityUtil.generateUUID();
-        Cookie cookie = new Cookie("kaptchaOwner", kaptchaOwner);
+        String kaptChaOwner = CommunityUtil.generateUUID();
+        Cookie cookie = new Cookie("kaptChaOwner", kaptChaOwner);
         cookie.setMaxAge(60);
         cookie.setPath(contextPath);
         response.addCookie(cookie);
-        String kaptchaKey = RedisKeyUtil.getKaptchaKey(kaptchaOwner);
-        redisTemplate.opsForValue().set(kaptchaKey, text, 60, TimeUnit.SECONDS);
+        String kaptChaKey = RedisKeyUtil.getKaptchaKey(kaptChaOwner);
+        redisTemplate.opsForValue().set(kaptChaKey, text, 360, TimeUnit.SECONDS);
 
         //将图片输出给浏览器
         response.setContentType("image/png");

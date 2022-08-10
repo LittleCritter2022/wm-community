@@ -40,3 +40,6 @@ mybatis-plus:
       logic-not-delete-value: 1
       # ?????
       logic-delete-value: 0
+
+uim:
+  contextPath:

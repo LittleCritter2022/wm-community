@@ -24,4 +24,14 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LoginAnnotation {
+
+    /**
+     * 自定义注解的内容语法格式： 数据类型 属性名() default 默认值  如 String name() default "";
+     * 默认值： 字符串一般为 ""   数组一般为 {}
+     */
+
+    String module() default "";
+
+    String operator() default "";
+
 }

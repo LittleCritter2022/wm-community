@@ -41,7 +41,7 @@ public class LoginController {
     private UserService userServiceImpl;
 
     @PostMapping("/login")
-    @LoginAnnotation
+    @LoginAnnotation(module = "login", operator = "登录")
     @ApiOperation(value = "登录")
     public Response login(@RequestBody LoginQuery loginQuery, HttpServletRequest request,
                           HttpServletResponse response) {
@@ -49,36 +49,37 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    @LoginAnnotation
+    @LoginAnnotation(module = "register", operator = "注册")
     @ApiOperation("注册")
     public Response register(@RequestBody RegisterDto registerDto) {
         return userServiceImpl.register(registerDto);
     }
 
     @PostMapping("/update")
-    @LoginAnnotation
+    @LoginAnnotation(module = "update", operator = "修改用户信息")
     @ApiOperation(value = "修改用户信息")
     public Response update(@RequestBody UpdateDto updateDto) {
         return userServiceImpl.updateUser(updateDto);
     }
 
     @GetMapping("/delete")
-    @LoginAnnotation
+    @LoginAnnotation(module = "delete", operator = "注销账号")
     @ApiOperation(value = "注销账号")
     public Response deleteById(@RequestParam Integer id) {
         return userServiceImpl.deleteById(id);
     }
 
     @GetMapping("/activation")
-    @LoginAnnotation
+    @LoginAnnotation(module = "activation", operator = "激活")
     @ApiOperation(value = "激活")
     public Response activation(@RequestParam("id") String id, @RequestParam("code") String code) {
         return userServiceImpl.activation(id, code);
     }
 
-    @GetMapping("/kaptcha")
+    @GetMapping("/kaptCha")
+    @LoginAnnotation(module = "kaptCha", operator = "验证码")
     @ApiOperation("验证码")
-    public void kaptcha(HttpServletResponse response) {
-        userServiceImpl.kaptcha(response);
+    public void kaptCha(HttpServletResponse response) {
+        userServiceImpl.kaptCha(response);
     }
 }
